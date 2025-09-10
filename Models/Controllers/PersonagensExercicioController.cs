@@ -25,7 +25,7 @@ namespace RpgApi.Controllers
             new Personagem() { Id = 5, Nome = "Hobbit", PontosVida=100, Forca=20, Defesa=17, Inteligencia=31, Classe=ClasseEnum.Cavaleiro },
             new Personagem() { Id = 6, Nome = "Celeborn", PontosVida=150, Forca=21, Defesa=13, Inteligencia=34, Classe=ClasseEnum.Clerigo },
             new Personagem() { Id = 7, Nome = "Radagast", PontosVida=200, Forca=25, Defesa=11, Inteligencia=35, Classe=ClasseEnum.Mago },
-            new Personagem() { Id = 8, Nome = "Guaraná", PontosVida=1000, Forca=-1000, Defesa=-1000, Inteligencia=-1000, Classe=ClasseEnum.Ladino }
+            new Personagem() { Id = 8, Nome = "Guaraná", PontosVida=1000, Forca=-1000, Defesa=-1000, Inteligencia=35, Classe=ClasseEnum.Ladino }
         };
 
         [HttpGet("GetByNome/{nome}")]
