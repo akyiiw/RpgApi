@@ -23,7 +23,7 @@ namespace RpgApi.Models.Controllers
         }
 
         [HttpGet("{id}")] 
-        public async Task<IActionResult> GetSingle (int id)
+        public async Task<IActionResult> GetSingle(int id)
         {
             try
             {
@@ -64,6 +64,11 @@ namespace RpgApi.Models.Controllers
 
                 return Ok(novoPersonagem.Id);
             }
+            
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
@@ -80,6 +85,7 @@ namespace RpgApi.Models.Controllers
 
                 return Ok(linhasAfetadas);
             }
+            
             catch (SystemException ex)
             {
                 return BadRequest(ex.Message);
@@ -96,11 +102,14 @@ namespace RpgApi.Models.Controllers
                 int linhasAfetadas = await _context.SaveChangesAsync();
                 return Ok(linhasAfetadas);
             }
+            
             catch (System.Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+
         }
+
 
 
 
