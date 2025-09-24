@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using RpgApi.Models;
 using RPGAPI.Models;
 using RPGAPI.Models.Enuns;
 
@@ -19,7 +21,7 @@ namespace RpgApi.Data
 
         // Prop
         public DbSet<Personagem> TB_PERSONAGENS { get; set; }
-
+        public DbSet<Arma> TB_ARMAS { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,11 +37,30 @@ namespace RpgApi.Data
                 new Personagem() { Id = 6, Nome = "Celeborn", PontosVida=100, Forca=21, Defesa=13, Inteligencia=34, Classe=ClasseEnum.Clerigo },
                 new Personagem() { Id = 7, Nome = "Radagast", PontosVida=100, Forca=25, Defesa=11, Inteligencia=35, Classe=ClasseEnum.Mago }
             );
+
+            modelBuilder.Entity<Arma>().ToTable("TB_ARMAS");
+
+            modelBuilder.Entity<Arma>().HasData 
+            (
+                new Arma() { Id = 1, Nome = "Ferrão", Dano = 20 },
+                new Arma() { Id = 2, Nome = "Sting", Dano = 25 },
+                new Arma() { Id = 3, Nome = "Mjonir", Dano = 35 },
+                new Arma() { Id = 4, Nome = "Murasama", Dano = 25 },
+                new Arma() { Id = 5, Nome = "Zangetsu", Dano = 20 },
+                new Arma() { Id = 6, Nome = "DMT", Dano = 30 },
+                new Arma() { Id = 7, Nome = "Ébano & Marfim", Dano = 8 }
+            );
         }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             configurationBuilder.Properties<string>().HaveColumnType("varchar").HaveMaxLength(200);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(warnings => warnings
+                .Ignore(RelationalEventId.PendingModelChangesWarning));
         }
     }
 }

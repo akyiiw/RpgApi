@@ -11,7 +11,7 @@ namespace RPGAPI.Models.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PersonagensController : ControllerBase
+    public class PersonagensExemploController : ControllerBase
     {
         private static List<Personagem> personagens = new List<Personagem>()
         {

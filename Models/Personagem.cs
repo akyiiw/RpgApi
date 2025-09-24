@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using RPGAPI.Models.Enuns;
 
-
 namespace RPGAPI.Models
 {
     public class Personagem
