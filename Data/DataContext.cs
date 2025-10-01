@@ -29,6 +29,12 @@ namespace RpgApi.Data
         {
             modelBuilder.Entity<Personagem>().ToTable("TB_PERSONAGENS");
 
+            modelBuilder.Entity<Personagem>()
+                .HasOne(e => e.Arma)
+                .WithOne(e => e.Personagem)
+                .HasForeignKey<Arma>(e => e.PersonagemId)
+                .IsRequired();
+
             modelBuilder.Entity<Personagem>().HasData 
             (
                 new Personagem() { Id = 1, Nome = "Frodo", PontosVida=100, Forca=17, Defesa=23, Inteligencia=33, Classe=ClasseEnum.Cavaleiro, UsuarioId=1},
@@ -44,13 +50,13 @@ namespace RpgApi.Data
 
             modelBuilder.Entity<Arma>().HasData 
             (
-                new Arma() { Id = 1, Nome = "Ferrão", Dano = 20 },
-                new Arma() { Id = 2, Nome = "Sting", Dano = 25 },
-                new Arma() { Id = 3, Nome = "Mjonir", Dano = 35 },
-                new Arma() { Id = 4, Nome = "Murasama", Dano = 25 },
-                new Arma() { Id = 5, Nome = "Zangetsu", Dano = 20 },
-                new Arma() { Id = 6, Nome = "DMT", Dano = 30 },
-                new Arma() { Id = 7, Nome = "Ébano & Marfim", Dano = 8 }
+                new Arma() { Id = 1, Nome = "Ferrão", Dano = 20, PersonagemId = 1 },
+                new Arma() { Id = 2, Nome = "Sting", Dano = 25, PersonagemId = 2 },
+                new Arma() { Id = 3, Nome = "Mjonir", Dano = 35, PersonagemId = 3 },
+                new Arma() { Id = 4, Nome = "Murasama", Dano = 25, PersonagemId = 4 },
+                new Arma() { Id = 5, Nome = "Zangetsu", Dano = 20, PersonagemId = 5 },
+                new Arma() { Id = 6, Nome = "DMT", Dano = 30, PersonagemId = 6 },
+                new Arma() { Id = 7, Nome = "Ébano & Marfim", Dano = 8, PersonagemId = 7 }
             );
 
             modelBuilder.Entity<Usuario>().ToTable("TB_USUARIOS");
@@ -60,6 +66,33 @@ namespace RpgApi.Data
                 .WithOne(e => e.Usuario)
                 .HasForeignKey(e => e.UsuarioId)
                 .IsRequired(false);
+
+            modelBuilder.Entity<Habilidade>().ToTable("TB_HABILIDADES");
+
+            modelBuilder.Entity<Habilidade>().HasData
+            (
+                new Habilidade() { Id = 1, Nome = "Flash", Dano = 1},
+                new Habilidade() { Id = 2, Nome = "Ignite", Dano = 40},
+                new Habilidade() { Id = 3, Nome = "Smite", Dano = 50}
+            );
+
+            modelBuilder.Entity<PersonagemHabilidade>().ToTable("TB_PERSONAGENS_HABILIDADES");
+
+            modelBuilder.Entity<PersonagemHabilidade>()
+                .HasKey(ph => new {ph.PersonagemId, ph.HabilidadeId });
+
+            modelBuilder.Entity<PersonagemHabilidade>().HasData
+            (
+                new PersonagemHabilidade() { PersonagemId = 1, HabilidadeId = 1 },
+                new PersonagemHabilidade() { PersonagemId = 1, HabilidadeId = 2 },
+                new PersonagemHabilidade() { PersonagemId = 2, HabilidadeId = 2 },
+                new PersonagemHabilidade() { PersonagemId = 3, HabilidadeId = 2 },
+                new PersonagemHabilidade() { PersonagemId = 3, HabilidadeId = 3 },
+                new PersonagemHabilidade() { PersonagemId = 4, HabilidadeId = 3 },
+                new PersonagemHabilidade() { PersonagemId = 5, HabilidadeId = 1 },
+                new PersonagemHabilidade() { PersonagemId = 6, HabilidadeId = 2 },
+                new PersonagemHabilidade() { PersonagemId = 7, HabilidadeId = 3 }
+            );
 
             Usuario user = new();
             Criptografia.CriarPasswordHash("123456", out byte[] hash, out byte[] salt);
