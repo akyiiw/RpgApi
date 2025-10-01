@@ -1,0 +1,71 @@
+﻿BEGIN TRANSACTION;
+ALTER TABLE [TB_PERSONAGENS] ADD [FotoPersonagem] varbinary(max) NULL;
+
+ALTER TABLE [TB_PERSONAGENS] ADD [UsuarioId] int NULL;
+
+CREATE TABLE [TB_USUARIOS] (
+    [Id] int NOT NULL IDENTITY,
+    [Username] varchar(200) NOT NULL,
+    [PasswordHash] varbinary(max) NULL,
+    [PasswordSalt] varbinary(max) NULL,
+    [Foto] varbinary(max) NULL,
+    [Latitude] float NULL,
+    [Longitude] float NULL,
+    [DataAcesso] datetime2 NULL,
+    [Perfil] varchar(200) NULL,
+    [Email] varchar(200) NULL,
+    CONSTRAINT [PK_TB_USUARIOS] PRIMARY KEY ([Id])
+);
+
+UPDATE [TB_PERSONAGENS] SET [FotoPersonagem] = NULL, [UsuarioId] = 1
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+
+
+UPDATE [TB_PERSONAGENS] SET [FotoPersonagem] = NULL, [UsuarioId] = 1
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+
+
+UPDATE [TB_PERSONAGENS] SET [FotoPersonagem] = NULL, [UsuarioId] = 1
+WHERE [Id] = 3;
+SELECT @@ROWCOUNT;
+
+
+UPDATE [TB_PERSONAGENS] SET [FotoPersonagem] = NULL, [UsuarioId] = 1
+WHERE [Id] = 4;
+SELECT @@ROWCOUNT;
+
+
+UPDATE [TB_PERSONAGENS] SET [FotoPersonagem] = NULL, [UsuarioId] = 1
+WHERE [Id] = 5;
+SELECT @@ROWCOUNT;
+
+
+UPDATE [TB_PERSONAGENS] SET [FotoPersonagem] = NULL, [UsuarioId] = 1
+WHERE [Id] = 6;
+SELECT @@ROWCOUNT;
+
+
+UPDATE [TB_PERSONAGENS] SET [FotoPersonagem] = NULL, [UsuarioId] = 1
+WHERE [Id] = 7;
+SELECT @@ROWCOUNT;
+
+
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'DataAcesso', N'Email', N'Foto', N'Latitude', N'Longitude', N'PasswordHash', N'PasswordSalt', N'Perfil', N'Username') AND [object_id] = OBJECT_ID(N'[TB_USUARIOS]'))
+    SET IDENTITY_INSERT [TB_USUARIOS] ON;
+INSERT INTO [TB_USUARIOS] ([Id], [DataAcesso], [Email], [Foto], [Latitude], [Longitude], [PasswordHash], [PasswordSalt], [Perfil], [Username])
+VALUES (1, NULL, 'seuEmail@gmail.com', NULL, -23.520024100000001E0, -46.596497999999997E0, 0xB4F8FD5C3CAA51A1A5891F51EF29031DDA09E741007C66D186A608719B90A3A87D92650027292D080B54BD194C641CC8A57953226208D6654964736950F04ED2, 0x8434FC015DBF4C10A468D3A663E4F60E0C89807272E01AFE8C182BAF9DB27B849641CAD999DC9B6BAFF4AB66D8C8BCB4D6DD22CCF28D7FE3F31F42C168194EAB31957D36BD3D41751A248CF4A780FD70CC2AF0ABF350C245DFDCCC664FCAF9FA54D74430250085166F7C4AEA263A7F6C20C86FDD8B466CA392BE280BAA14FC32, 'Admin', 'UsuarioAdmin');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'DataAcesso', N'Email', N'Foto', N'Latitude', N'Longitude', N'PasswordHash', N'PasswordSalt', N'Perfil', N'Username') AND [object_id] = OBJECT_ID(N'[TB_USUARIOS]'))
+    SET IDENTITY_INSERT [TB_USUARIOS] OFF;
+
+CREATE INDEX [IX_TB_PERSONAGENS_UsuarioId] ON [TB_PERSONAGENS] ([UsuarioId]);
+
+ALTER TABLE [TB_PERSONAGENS] ADD CONSTRAINT [FK_TB_PERSONAGENS_TB_USUARIOS_UsuarioId] FOREIGN KEY ([UsuarioId]) REFERENCES [TB_USUARIOS] ([Id]);
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20251001013030_MigracaoUsuario', N'9.0.9');
+
+COMMIT;
+GO
+
