@@ -55,10 +55,13 @@ namespace RpgApi.Models.Controllers
         {
             try 
             {
-                if(novaArma.Dano > 50)
-                {
+                if (novaArma.Dano > 50)
                     throw new Exception("Pontos de dano não podem ser maiores que 50");
-                }
+
+                Personagem p = await _context.TB_PERSONAGENS
+                    .FirstOrDefaultAsync(p => p.Id == novaArma.PersonagemId) 
+                    ?? throw new Exception("Não existe personagem com o Id informado");
+
                 await _context.TB_ARMAS.AddAsync(novaArma);
                 await _context.SaveChangesAsync();
 
@@ -77,9 +80,12 @@ namespace RpgApi.Models.Controllers
             try
             {
                 if(novaArma.Dano > 50)
-                {
                     throw new SystemException("Pontos de dano não podem ser maiores que 50");
-                }
+                
+                Personagem p = await _context.TB_PERSONAGENS
+                    .FirstOrDefaultAsync(p => p.Id == novaArma.PersonagemId) 
+                    ?? throw new Exception("Não existe personagem com o Id informado");
+                    
                 _context.TB_ARMAS.Update(novaArma);
                 int linhasAfetadas = await _context.SaveChangesAsync();
 

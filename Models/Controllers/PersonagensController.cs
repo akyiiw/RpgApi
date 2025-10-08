@@ -27,7 +27,12 @@ namespace RpgApi.Models.Controllers
         {
             try
             {
-                Personagem p = await _context.TB_PERSONAGENS.FirstOrDefaultAsync(pBusca => pBusca.Id == id);
+                Personagem p = await _context.TB_PERSONAGENS
+                    .Include(ar => ar.Arma)
+                    .Include(ph => ph.PersonagemHabilidades)
+                        .ThenInclude(h => h.Habilidade)
+                    .FirstOrDefaultAsync(pBusca => pBusca.Id == id);
+                    
                 return Ok(p);
             }
             catch (System.Exception ex)
