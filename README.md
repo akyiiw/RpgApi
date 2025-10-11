@@ -1,2 +1,2 @@
-# RpgApi - Pietro Borges e Artur Albion
+# RpgApi - Pietro Borges
 http://makima.somee.com/RpgApi
